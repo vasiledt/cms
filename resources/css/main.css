@@ -1,0 +1,256 @@
+body {
+	text-align: left;
+	margin: 0px;
+}
+body * {
+	font-size: 14px;
+	font-family: arial;
+}
+h1, h2, h3, h4, h5 {
+	text-align: left;
+	color: #2E6E9E;
+}
+h1 {
+	font-size: 24px;
+}
+h2 {
+	font-size: 20px;
+}
+h3 {
+	font-size: 16px;
+}
+
+.body {
+	margin: auto;
+	width: 1024px;
+}
+
+.aleft {
+	text-align: left !important;
+}
+.aright {
+	text-align: right !important;
+}
+.fleft {
+	float: left;
+}
+.clear {
+	line-height: 0px !important;
+	height: 0px !important;
+	width: 0px !important;
+	display: block !important;
+	overflow: hidden !important;
+	float: none !important;
+	clear: both !important;
+}
+.dnone {
+	display: none !important;
+}
+.dhidden{
+	visibility: hidden !important;
+}
+.big {
+	width: 350px;
+}
+.vbig {
+	width: 700px;
+}
+div.error{
+	position: absolute !important;
+	right: 5px;
+	top: 0px;
+	width: auto !important;
+	white-space: nowrap;
+	background-color: #FF0000;
+	border: 1px solid #AA0000;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 1px 5px;
+	text-align: left !important;
+	text-indent: 0;
+	font-size: 12px;
+}
+
+.crop {
+	display: inline-block !important;
+	overflow: hidden;
+	position: relative;
+}
+.crop img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.crop.admin .menu {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+.crop.admin .menu a {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin: 1px;
+	float: left;
+}
+.crop.admin .menu a span {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: url("../css/jquery/images/ui-icons_6da8d5_256x240.png") no-repeat #ececec;
+	border: 1px solid #6da8d5;
+	border-radius: 3px;
+}
+.crop.admin .menu a span:hover {
+	background: url("../css/jquery/images/ui-icons_217bc0_256x240.png") no-repeat #ffffff;
+	border: 1px solid #217bc0;
+	cursor: pointer;
+}
+.crop.admin .menu a span.move {
+	background-position: 0px -80px;
+}
+.crop.admin .menu a span.save {
+	background-position: -96px -112px;
+}
+
+form#login, form#regUser {
+	width: 270px;
+	display: block;
+	margin: auto;
+}
+form .row {
+	padding: 3px;
+	text-align: right;
+	line-height: 20px;
+}
+form label {
+	width: 100px;
+	text-align: left;
+	display: inline-block;
+	float: left;
+	line-height: 26px;
+	position: relative;
+}
+form .cell {
+	display: inline-block;
+}
+
+ul.main_menu {
+	list-style-type: none;
+	padding: 10px 0px 0px;
+	margin: 0px;
+}
+ul.main_menu li {
+	display: inline-block;
+	float: left;
+	margin-right: 3px;
+}
+ul.main_menu li a{
+	padding: 5px 15px;
+	display: block;
+	font-weight: bold;
+	font-size: 18px;
+	background-color: #D5D9E7;
+	color: #444444;
+	text-decoration: none;
+	border-radius: 8px 8px 0px 0px;
+}
+ul.main_menu li a:hover, ul.main_menu li a.active{
+	background-color: #2E6E9E;
+	color: #ffffff;
+}
+
+.main {
+	border: 5px solid #2E6E9E;
+	border-radius: 0px 10px 10px 10px;
+	min-height: 50px;
+	padding: 25px;
+	background-color: #ffffff;
+	color: #000000;
+	position: relative;
+}
+.main.external {
+	border-radius: 10px;
+	margin: 50px auto;
+}
+
+.edit_button {
+	background: url("../css/jquery/images/ui-bg_glass_85_dfeffc_1x400.png") repeat scroll 0 0 transparent;
+	border: 1px solid #A6C9E2;
+	border-radius: 3px 3px 3px 3px;
+	color: #449ADC !important;
+	display: inline-block;
+	font-size: 12px;
+	height: 16px;
+	line-height: 16px;
+	margin-right: 3px;
+	padding: 0 5px;
+	position: relative;
+	text-decoration: none;
+	text-indent: 10px;
+}
+.edit_button:hover {
+	border: 1px solid #2E6E9E;
+	background: none #ffffff;
+	color: #2E6E9E !important;
+	text-decoration: none !important;
+}
+.edit_button span.ui-icon{
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+
+.cmsObject {
+	display: inline-block;
+	min-height: 50px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.cmsObject.admin {
+	border: 1px dashed #cccccc;
+}
+.cmsObject.admin:hover {
+	border-color: #000000;
+}
+.cmsObject span.cmsTitle {
+	background-color: #cccccc;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 3px;
+	font-size: 12px;
+}
+.cmsObject .edit_button {
+	position: absolute;
+	right: 0px;
+}
+
+
+ form label a.ui-icon {
+	position: absolute;
+	top: 5px;
+	right: 30px;
+ }
+ 
+
+.mtable .odd {
+	background-color: #ececec;
+}
+.mtable .even {
+	background-color: #efefef;
+}
+.mtable .odd:hover, .mtable .even:hover {
+	background-color: #cccccc;
+}
+table.mtable td {
+	padding: 1px;
+}
+table.mtable  thead th {
+	padding: 2px;
+}
+table.mtable  td {
+	vertical-align: top;
+}
