@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$(document).delegate('a.pop_triger', 'click', function(ev){
+	$(document).delegate('a.pop_triger', 'click', function(ev){ // open popup trigers
 		ev.stopImmediatePropagation();
 		var parent = $(ev.target).parents('div.cmsObject').first();
 		parent.append('<div class="dialog-add-item dhidden" id="add_item"></div>');
@@ -15,14 +15,46 @@ $(document).ready(function() {
 				title: dialogTitle,
 				create: function(event, ui) {
 					$('div#add_item').removeClass('dhidden');
+					$(parent).addClass('pop_added');
 				},
 				close: function( event, ui ) {
 					$('div#add_item').dialog('destroy').remove();
+					$(parent).removeClass('pop_added');
 				}
 			});
 		});
 		return false;	
 	});
+	
+	// submit in dialog box
+	$(document).delegate('div#add_item form input[type="submit"]', 'click', function(ev){
+		ev.stopImmediatePropagation();
+		var formEl = $(this).parents('form').first();
+		$.post(formEl.prop('action'), formEl.serialize(), function(data){
+			$('div.loadable.pop_added').trigger('reload');
+			$('div#add_item').first().dialog('close');
+			if ($("#item_list").length) {
+				$("#item_list").jqGrid().trigger("reloadGrid");
+			}
+		});
+		return false;
+	});
+	
+	// cancel in dialog box
+	$(document).delegate('div#add_item form input[type="button"]#cancel', 'click', function(ev){
+		ev.stopImmediatePropagation();
+		$('div#add_item').first().dialog('close');
+		return false;
+	});	
+	
+	// loadable containers
+	$(document).delegate('.loadable', 'reload', function(ev){
+		ev.stopImmediatePropagation();
+		$(this).load($(this).attr('src'));
+		return false;
+	});
+	
+	
 	
 	$(document).delegate('.crop span.menu a span.move', 'click', function(ev){
 		ev.stopImmediatePropagation();

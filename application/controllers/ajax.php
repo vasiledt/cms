@@ -5,7 +5,7 @@ include_once('a_controller.php');
 class Ajax extends a_controller {
 	public function __construct() {
 		parent::__construct();
-		// $this->load->helper(array('url', 'html', 'array'));
+		$this->load->helper(array('url', 'html', 'array'));
 	}
 
 	public function edit($library, $idItem) {
@@ -16,7 +16,29 @@ class Ajax extends a_controller {
 		}
 	}
 	
-	public function save() {
+	public function save($library, $idItem = 0) {
+		$this->load->library($library);
+		if (isset($this->$library)) {
+			$values = $this->input->post();
+			$values['id'] = $idItem;
+			$this->$library->save($values);
+		}
+	}
+
+	public function show($library, $idItem) {
+		$this->load->library($library);
+		if (isset($this->$library)) {
+			$this->$library->load($idItem);
+			$params = array(
+				'ajax' => TRUE
+			);			
+			echo processItems($this->$library->show($params));
+		}
+	}
+
+
+
+	public function _save() {
 		$values = $this->input->post();
 		if (empty($values['type'])) {
 			return FALSE;

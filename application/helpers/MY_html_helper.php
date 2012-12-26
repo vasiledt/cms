@@ -44,7 +44,17 @@ function checkImg($fileName) {
 }
 
 function showObject($params = array()) {
+	if (isset($params['ajax'])) {
+		if (isset($params['html'])) {
+			return $params['html'];
+		} else {
+			return '';
+		}
+	}
 	$output = '<div';
+	if (isset($params['id'])) {
+		$output .= ' id="'.$params['id'].'"';
+	}
 	if (isset($params['class'])) {
 		$output .= ' class="'.$params['class'].'"';
 	}
@@ -58,6 +68,9 @@ function showObject($params = array()) {
 		} elseif (is_string($params['style'])) {
 			$output .= ' style="'.$params['style'].'"';
 		}
+	}
+	if (isset($params['src'])) {
+		$output .= ' src="'.$params['src'].'"';
 	}
 	
 	$output .= '>';

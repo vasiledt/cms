@@ -50,7 +50,7 @@ h3 {
 	visibility: hidden !important;
 }
 .big {
-	width: 350px;
+	width: 360px;
 }
 .vbig {
 	width: 700px;
@@ -226,6 +226,7 @@ ul.main_menu li a:hover, ul.main_menu li a.active{
 .cmsObject .edit_button {
 	position: absolute;
 	right: 0px;
+	top: 0px;
 }
 
 

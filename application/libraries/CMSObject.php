@@ -39,7 +39,10 @@ class CMSObject {
 		}
 	}
 	
-	public function save() {
+	public function save($values = array()) {
+		if (!empty($values)) {
+			$this->_init($values);
+		}
 		$context = array(
 			'table' => 'objects'
 		);
@@ -77,20 +80,25 @@ class CMSObject {
 	
 	public function show($params = array()) {
 		$params['html'] = $this->description;
+		$urls = $this->_CI->config->item('routes');
 		if ($this->_CI->loggedUser) {
 			if (isset($params['class'])) {
 				$params['class'] .= ' admin';
 			} else {
 				$params['class'] = 'admin';
 			}
+			$params['class'] .= ' loadable cmsObject';
+			$params['src'] = site_url($urls['cmsobject']['show'].$this->id);
 			$params['html'] .= '<span class="cmsTitle">'.$this->title.'</span>';
-			$params['html'] .= '<a class="edit_button pop_triger" href="ajax/edit/cmsobject/'.$this->id.'" title="Edit"><span class="ui-icon ui-icon-circle-plus"></span>edit</a>';
+			$params['html'] .= '<a class="edit_button pop_triger" href="'.site_url($urls['cmsobject']['edit'].$this->id).'" title="Edit"><span class="ui-icon ui-icon-circle-plus"></span>edit</a>';
 		}
 		return showObject($params);
 	}
 	
 	public function dialog($type = 'edit') {
+		$urls = $this->_CI->config->item('routes');
 		$data = array(
+			'formAction' => site_url($urls['cmsobject']['save'].$this->id),
 			'id' => $this->id,
 			'title' => $this->title,
 			'description' => $this->description,

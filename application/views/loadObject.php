@@ -1,14 +1,14 @@
-<form method="post" name="loadObject" id="loadObject" action="ajax/save/cmsobject/<?php echo $id; ?>">
+<form method="post" name="loadObject" id="loadObject" action="<?php echo $formAction; ?>">
 	<div class="row dnone">	
 		<h3 class="title">Update Object</h3>
 	</div>
 	<div class="row aleft">
 		<label>Title</label>
-		<div class="cell"><input name="title" id="title" value="<?php echo $title; ?>" type="text" /></div>
+		<div class="cell"><input name="title" id="title" value="<?php echo $title; ?>" type="text" readonly="readonly" /></div>
 	</div>
 	<div class="row aleft">
 		<label>Description</label>
-		<div class="cell"><textarea name="description" id="description" class="big" rows="2"><?php echo $description; ?></textarea></div>
+		<div class="cell"><textarea name="description" id="description" class="big" rows="10"><?php echo $description; ?></textarea></div>
 	</div>
 	<div class="row">
 		<label>Status</label>

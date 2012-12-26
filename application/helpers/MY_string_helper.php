@@ -31,28 +31,31 @@ if ( ! function_exists('processItems') ) {
 	function processItems($source) {
 		$_CI = & get_instance();
 		$count = 0;
-		while ($val = substring($source, '<item ', '</item>')) {
+		// <item type="libraryName" class="" id="" style="" params="" />
+		while ($val = substring($source, '{item ', ' /}')) {
 			$matches = array();
-			$pattern = '/\s?([^>]*)>(.*)/i';
-			preg_match($pattern, $val, $matches);
-			if (sizeof($matches) > 1) {
-				$pattern = '/\s?([^=]*)=[\'|"]([^\'"]*)[\'|"]/i';
+			$pattern = '/\s?([^=]*)=[\'|"]([^\'"]*)[\'|"]/i';
+			preg_match_all($pattern, $val, $matches);
+			if (!empty($matches[1]) && !empty($matches[2]) && (sizeof($matches[1]) == sizeof($matches[2]))) {
 				$params = array();
-				preg_match_all($pattern, $matches[1], $params);
-				if (!empty($params[1])) {
-					$item = array();
-					foreach ($params[1] as $i => $pname) {
-						$item[$pname] = $params[2][$i];
+				foreach ($matches[1] as $i => $pname) {
+					$params[$pname] = $matches[2][$i];
+				}
+				// echo '<pre>'.print_r($params, TRUE).'</pre>';
+				if (isset($params['type']) && isset($params['id'])) {
+					$library = strtolower($params['type']);
+					unset($params['type']);
+					$idItem = $params['id'];
+					$_CI->load->library($library);
+					if (isset($_CI->$library)) {
+						if (is_numeric($idItem)) {
+							$_CI->$library->load($idItem);
+						} else {
+							$_CI->$library->loadByTitle($idItem);
+						}
+						$source = str_replace('{item '.$val.' /}', $_CI->$library->show($params), $source);
 					}
 				}
-				if (!empty($matches[2]) && !empty($item)) {
-					$item['value'] = $matches[2];
-				}
-				if (empty($_CI->item)) {
-					$_CI->load->library('item');
-				}
-				$_CI->item->load($item);
-				$source = str_replace('<item '.$val.'</item>', $_CI->item->show(), $source);
 			}
 			$count++;
 			if ($count > 10)
