@@ -31,8 +31,8 @@ if ( ! function_exists('processItems') ) {
 	function processItems($source) {
 		$_CI = & get_instance();
 		$count = 0;
-		// <item type="libraryName" class="" id="" style="" params="" />
-		while ($val = substring($source, '{item ', ' /}')) {
+		// <item type="libraryName" class="" id="" style="" params=""></item>
+		while ($val = substring($source, '<item ', '</item>')) {
 			$matches = array();
 			$pattern = '/\s?([^=]*)=[\'|"]([^\'"]*)[\'|"]/i';
 			preg_match_all($pattern, $val, $matches);
@@ -53,7 +53,7 @@ if ( ! function_exists('processItems') ) {
 						} else {
 							$_CI->$library->loadByTitle($idItem);
 						}
-						$source = str_replace('{item '.$val.' /}', $_CI->$library->show($params), $source);
+						$source = str_replace('<item '.$val.'</item>', $_CI->$library->show($params), $source);
 					}
 				}
 			}

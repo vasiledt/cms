@@ -30,6 +30,15 @@ $(document).ready(function() {
 	$(document).delegate('div#add_item form input[type="submit"]', 'click', function(ev){
 		ev.stopImmediatePropagation();
 		var formEl = $(this).parents('form').first();
+		var formTarget = formEl.attr('target');
+		if (formTarget) {
+			var target = $('iframe#'+formTarget);
+			if (target.attr('id') == formTarget) { // if target iframe detected, submit form to iframe and close the dialog. The iframe will handle other events like reload. Used for files upload, because ajax serialize is bad!
+				formEl.submit();
+				return false;
+			}
+		}
+		
 		$.post(formEl.prop('action'), formEl.serialize(), function(data){
 			$('div.loadable.pop_added').trigger('reload');
 			$('div#add_item').first().dialog('close');
@@ -83,3 +92,8 @@ $(document).ready(function() {
 		return false;
 	});
 });
+
+function closePop() {
+	$('div.loadable.pop_added').trigger('reload');
+	$('div#add_item').first().dialog('close');
+}

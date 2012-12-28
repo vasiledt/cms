@@ -24,7 +24,7 @@ class Admin extends a_controller {
 			// 'class' => 'cmsObject'
 		// );
 		// $this->data['data'] = $this->cmsobject->show($params);
-		$this->data['data'] = processItems('{item type="CMSObject" id="testPage" /}');
+		$this->data['data'] = processItems('<item type="CMSObject" id="testPage"></item>');
 		$this->load->view('front', $this->data);
 	}
 }
