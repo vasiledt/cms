@@ -35,8 +35,15 @@ function checkImg($fileName) {
 		} else {
 			$_CI = & get_instance();
 			$path = trim($_CI->config->item('imgUrl'), '/') . '/' . $fileName;
-			if (stream_resolve_include_path($path)) {
-				return TRUE;
+
+			if (function_exists('stream_resolve_inlcude_path')) {
+				if (stream_resolve_include_path($path)) {
+					return TRUE;
+				}
+			} else {
+				if (file_exists($path)) {
+					return true;
+				}
 			}
 		}
 	}

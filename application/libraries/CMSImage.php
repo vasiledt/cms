@@ -136,6 +136,20 @@ class CMSImage {
 		// $this->dump();
 		
 		$params['html'] = '';
+		if (!empty($this->path) && checkImg($this->path)) { // img validation
+			$this->path = imgUrl($this->path);
+			$this->scaleImage($params);
+			var_dump($this->params);
+			$imgUrlParams = 'src='.$this->path;
+			if (!empty($this->params['width']) && ($this->params['width'] !== '*')) {
+				$imgUrlParams .= '&w='.$this->params['width'];
+			}
+			if (!empty($this->params['height']) && ($this->params['height'] !== '*')) {
+				$imgUrlParams .= '&h='.$this->params['height'];
+			}
+			$params['html'] = '<img src="'.resUrl('timthumb.php?'.$imgUrlParams).'" />';
+		}
+		
 		$urls = $this->_CI->config->item('routes');
 		if ($this->_CI->loggedUser) {
 			if (isset($params['class'])) {
@@ -149,79 +163,41 @@ class CMSImage {
 			$params['html'] .= '<a class="edit_button pop_triger" href="'.site_url($urls['cmsimage']['edit'].$this->id).'" title="Edit"><span class="ui-icon ui-icon-circle-plus"></span>edit</a>';
 		}
 		return showObject($params);		
-		exit();
-		
-		if (!empty($this->path) && checkImg($this->path)) { // img validation
-			$this->path = imgUrl($this->path);
-		}
-		if (empty($this->path)) {
-			$this->path = '';
-			$this->params['crop_width'] = intval($this->params['style']['width']);
-			$this->params['crop_height'] = intval($this->params['style']['height']);
-		} else {
-			$this->scaleImage();
-			$imgUrlParams = 'src='.$this->path;
-			if (!empty($this->params['width']) && ($this->params['width'] !== '*')) {
-				$imgUrlParams .= '&w='.$this->params['width'];
-			}
-			if (!empty($this->params['height']) && ($this->params['height'] !== '*')) {
-				$imgUrlParams .= '&h='.$this->params['height'];
-			}
-		}
-		$data = $this->params;
-		if (!empty($this->path)) {
-			$data['image']['url'] = resUrl('timthumb.php?'.$imgUrlParams);
-		}
-
-		$params['html'] = '<img src="" />';
-		$urls = $this->_CI->config->item('routes');
-		if ($this->_CI->loggedUser) {
-			if (isset($params['class'])) {
-				$params['class'] .= ' admin crop';
-			} else {
-				$params['class'] = 'admin crop';
-			}
-			$params['class'] .= ' loadable cmsObject';
-			$params['src'] = site_url($urls['cmsobject']['show'].$this->id);
-			$params['html'] .= '<span class="cmsTitle">'.$this->title.'</span>';
-			$params['html'] .= '<a class="edit_button pop_triger" href="'.site_url($urls['cmsobject']['edit'].$this->id).'" title="Edit"><span class="ui-icon ui-icon-circle-plus"></span>edit</a>';
-		}
-		return showObject($params);
 	}
-	protected function scaleImage() {
-		if (empty($this->params['originalWidth']) || empty($this->params['originalHeight'])) {
-			$sizes = getimagesize($this->params['src']);
-			$this->params['originalWidth'] = $sizes[0];
-			$this->params['originalHeight'] = $sizes[1];
+	protected function scaleImage($params = array()) {
+		if (empty($this->params['w']) || empty($this->params['h'])) {
+			$sizes = getimagesize($this->path);
+			$this->params['w'] = $sizes[0];
+			$this->params['h'] = $sizes[1];
 		}
 		$w_ratio = 1;
-		if (!empty($this->params['style']['width'])) {
-			$w_ratio = $this->params['originalWidth'] / intval($this->params['style']['width']);
+		if (!empty($params['width'])) {
+			$w_ratio = $this->params['w'] / intval($params['width']);
 		} else {
 			$w_ratio = FALSE;
 		}
 		$h_ratio = 1;
-		if (!empty($this->params['style']['height'])) {
-			$h_ratio = $this->params['originalHeight'] / intval($this->params['style']['height']);
+		if (!empty($params['height'])) {
+			$h_ratio = $this->params['h'] / intval($params['height']);
 		} else {
 			$h_ratio = FALSE;
 		}
 		if ($w_ratio && $h_ratio) {
 			if ($w_ratio > $h_ratio) { // crop width
-				$this->params['crop_width'] = intval($this->params['style']['width']);
-				$this->params['crop_height'] = intval($this->params['style']['height']);
+				$this->params['crop_width'] = intval($params['width']);
+				$this->params['crop_height'] = intval($params['height']);
 				$this->params['width'] = '*';
-				$this->params['height'] = intval($this->params['style']['height']);
+				$this->params['height'] = intval($params['height']);
 			}
 			if ($w_ratio < $h_ratio) { // crop height
-				$this->params['crop_width'] = intval($this->params['style']['width']);
-				$this->params['crop_height'] = intval($this->params['style']['height']);
+				$this->params['crop_width'] = intval($params['width']);
+				$this->params['crop_height'] = intval($params['height']);
 				$this->params['height'] = '*';
-				$this->params['width'] = intval($this->params['style']['width']);
+				$this->params['width'] = intval($params['width']);
 			}
 			if (abs($w_ratio - $h_ratio) < 0.01) { // no crop
-				$this->params['width'] = intval($this->params['style']['width']);
-				$this->params['height'] = intval($this->params['style']['height']);
+				$this->params['width'] = intval($params['width']);
+				$this->params['height'] = intval($params['height']);
 			}
 		} else {
 			if ($w_ratio) {
